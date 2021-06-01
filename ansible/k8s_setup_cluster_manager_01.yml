@@ -1,0 +1,34 @@
+- name: Setup Cluster K8s  
+  hosts: k8manager01
+  become: true
+  become_user: root
+
+  tasks:
+  
+ # Setup Cluster
+  - name: Copy file Cluster
+    tags:
+      - setup_cluster
+    template:
+      src=cluster.yml.tpl
+      dest=/home/k8s/cluster.yml
+ 
+  - name: "Setup Cluster K8s"
+    become: yes
+    become_user: k8s
+    tags:
+      - setup_cluster
+    shell: rke up --config /home/k8s/cluster.yml
+
+  handlers:
+    - name: Export 
+      tags:
+      - setup_cluster
+      shell: export KUBECONFIG=/home/k8s/kube_config_cluster.yml
+
+    - name: Export conf bashrc
+      tags:
+      - setup_cluster
+      shell: echo "export KUBECONFIG=/home/k8s/kube_config_cluster.yml" >> /home/k8s/.bashrc
+
+   

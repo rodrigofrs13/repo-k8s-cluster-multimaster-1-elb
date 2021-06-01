@@ -1,0 +1,32 @@
+- name: Get Local IP and Copy S3
+  hosts: localhost
+  become: true
+  become_user: root
+
+  tasks:
+  - include_vars: vars.yml 
+  
+  - name: "copy to S3 bucket - nginx"
+    command: aws s3 cp s3://{{ bucketname }}/ip-rancher-elb-01  {{ pathfile }}/ip-rancher-elb-01
+
+  - name: "copy to S3 bucket - Master"
+    command: aws s3 cp s3://{{ bucketname }}/ip-rancher-master-01  {{ pathfile }}/ip-rancher-master-01
+
+  - name: "copy to S3 bucket - Worker 1"
+    command: aws s3 cp s3://{{ bucketname }}/ip-rancher-worker-01  {{ pathfile }}/ip-rancher-worker-01
+
+  - name: "copy to S3 bucket - worker 2"
+    command: aws s3 cp s3://{{ bucketname }}/ip-rancher-worker-02  {{ pathfile }}/ip-rancher-worker-02
+  
+  - name: "Add hosts Nginx"
+    shell: cat {{ pathfile }}/ip-rancher-elb-01 >> /etc/hosts
+
+  - name: "Add hosts Master"
+    shell: cat {{ pathfile }}//ip-rancher-master-01 >> /etc/hosts  
+
+  - name: "Add hosts Node 1"
+    shell: cat {{ pathfile }}//ip-rancher-worker-01 >> /etc/hosts  
+
+  - name: "Add hosts Node 2"
+    shell: cat {{ pathfile }}//ip-rancher-worker-02 >> /etc/hosts    
+

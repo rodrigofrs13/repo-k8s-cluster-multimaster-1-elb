@@ -1,0 +1,6 @@
+---
+# tasks in all hosts
+- include: apply-hosts/apply-hosts-fixo.yml
+#- include: 
+#- include: roles/ubuntu/k8sclusterubuntu.yml
+#- include: roles/ubuntu/s3master.yml

@@ -1,0 +1,38 @@
+- name: Get Local IP and Copy S3
+  hosts: allhosts
+  become: true
+  become_user: root
+
+  tasks:
+#  - include_vars: vars.yml 
+  
+  - name: "Add hosts Nginx"
+    tags:
+      - set_hosts_ip
+    shell: echo "10.225.92.49 rancher-elb-01 rancher-elb-01.algar.tech" >> /etc/hosts
+
+  - name: "Add hosts Master 01"
+    tags:
+      - set_hosts_ip
+    shell: echo "10.225.92.44	rancher-master-01 rancher-master-01.algar.tech" >> /etc/hosts  
+
+  - name: "Add hosts Master 02"
+    tags:
+      - set_hosts_ip
+    shell: echo "10.225.92.56	rancher-master-02 rancher-master-02.algar.tech" >> /etc/hosts  
+
+  - name: "Add hosts Master 03"
+    tags:
+      - set_hosts_ip
+    shell: echo "10.225.92.57	rancher-master-03 rancher-master-03.algar.tech" >> /etc/hosts  
+
+  - name: "Add hosts Node 1"
+    tags:
+      - set_hosts_ip
+    shell: echo "10.225.92.47	rancher-worker-01 rancher-worker-01.algar.tech" >> /etc/hosts  
+
+  - name: "Add hosts Node 2"
+    tags:
+      - set_hosts_ip
+    shell: echo "10.225.92.41	rancher-worker-02 rancher-worker-02.algar.tech" >> /etc/hosts    
+

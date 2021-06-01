@@ -1,0 +1,104 @@
+- name: Install and Configure RKE in Manager 01 
+  hosts: k8manager01
+  become: true
+  become_user: root
+
+  tasks:
+  
+ # Copy keys
+  - name: "Copy SSH KEY Master -> Manager 1"
+    become: yes
+    become_user: k8s
+    tags:
+      - copy_keys
+    shell: sshpass -p 123456 ssh-copy-id -o StrictHostKeyChecking=no -i ~/.ssh/k8s.pub k8s@10.225.92.44
+
+  - name: "Copy SSH KEY Master -> Manager 2"
+    become: yes
+    become_user: k8s
+    tags:
+      - copy_keys
+    shell: sshpass -p 123456 ssh-copy-id -o StrictHostKeyChecking=no -i ~/.ssh/k8s.pub k8s@10.225.92.56
+
+  - name: "Copy SSH KEY Master -> Manager 3"
+    become: yes
+    become_user: k8s
+    tags:
+      - copy_keys
+    shell: sshpass -p 123456 ssh-copy-id -o StrictHostKeyChecking=no -i ~/.ssh/k8s.pub k8s@10.225.92.57
+
+  - name: "Copy SSH KEY Master -> Worker 1"
+    become: yes
+    become_user: k8s
+    tags:
+      - copy_keys
+    shell: sshpass -p 123456 ssh-copy-id -o StrictHostKeyChecking=no -i ~/.ssh/k8s.pub k8s@10.225.92.47
+
+  - name: "Copy SSH KEY Master -> Worker 2"
+    become: yes
+    become_user: k8s
+    tags:
+      - copy_keys
+    shell: sshpass -p 123456 ssh-copy-id -o StrictHostKeyChecking=no -i ~/.ssh/k8s.pub k8s@10.225.92.41
+
+## Install RKE
+  - name: "Download RKE"
+    tags:
+      - install_rke
+    #shell: wget https://github.com/rancher/rke/releases/download/v0.1.15/rke_linux-amd64
+    shell: wget https://github.com/rancher/rke/releases/download/v0.2.6/rke_linux-amd64
+
+  - name: "Move RKE"
+    tags:
+      - install_rke
+    shell: mv rke_linux-amd64 /usr/local/bin/rke  
+
+  - name: "Set Permission RKE"
+    tags:
+      - install_rke
+    shell: chmod +x /usr/local/bin/rke 
+
+## Install Helm and Tiller
+
+  - name: "Download Helm and Tiller"
+    tags:
+      - install_helm
+    shell: wget https://get.helm.sh/helm-v2.12.2-linux-amd64.tar.gz
+
+  - name: "Descompacta"
+    tags:
+      - install_helm
+    shell: tar -xvzf helm-v2.12.2-linux-amd64.tar.gz
+
+  - name: "Copy Helm"
+    tags:
+      - install_helm
+    shell: cp linux-amd64/helm /usr/local/bin/
+
+  - name: "Copy Tiller"
+    tags:
+      - install_helm
+    shell: cp linux-amd64/tiller /usr/local/bin/  
+
+
+ ## Install kubectl and kubeadm
+
+  - name: "Download kubectl and kubeadm - Keys"
+    tags:
+      - install_kube
+    shell: sudo apt-get update && sudo apt-get install -y apt-transport-https curl
+
+  - name: "Download kubectl and kubeadm - Add key repo"
+    tags:
+      - install_kube
+    shell: curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+
+  - name: "Download kubectl and kubeadm - copy Repo"
+    tags:
+      - install_kube
+    shell: echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" >> /etc/apt/sources.list.d/kubernetes.list
+
+  - name: "Install kubectl and kubeadm" 
+    tags:
+      - install_kube
+    shell: apt-get update && apt-get install -y kubectl kubelet kubeadm 

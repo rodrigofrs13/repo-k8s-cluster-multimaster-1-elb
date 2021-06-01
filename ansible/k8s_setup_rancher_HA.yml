@@ -1,0 +1,16 @@
+- name: Setup Rancher in HA 
+  hosts: k8manager01
+  become: true
+  become_user: root
+
+  tasks:
+ 
+  - name: Create Tiller ServiceAccount.
+    k8s:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: ServiceAccount
+          metadata:
+            name: tiller
+            namespace: kube-system

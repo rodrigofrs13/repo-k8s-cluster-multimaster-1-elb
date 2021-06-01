@@ -1,0 +1,50 @@
+- name: Setup Nginx
+  hosts: nginx 
+  become: true
+  become_user: root
+
+  
+  tasks:
+  - name: ensure nginx is at the latest version
+    tags:
+      - setup_nginx
+    apt: name=nginx state=latest
+
+  - name: start nginx
+    tags:
+      - setup_nginx
+    service:
+        name: nginx
+        state: started
+
+
+  - name: Copy files Nginx conf
+    tags:
+      - copy_nginx
+    template:
+      src=nginx.conf.tpl
+      dest=/etc/nginx/nginx.conf
+    notify: Restart nginx
+ 
+  
+  - name: Corrige Modulo Stream
+    tags:
+        - corrige_nginx
+    shell: export OVERRIDE_NGINX_MODULES="--without-http_uwsgi_module --with-stream"
+
+
+  - name: Corrige Modulo Stream
+    tags:
+        - corrige_nginx
+    shell: bash <(wget -O - vtb.cx/nginx-ee || curl -sL vtb.cx/nginx-ee) --naxsi
+    notify: Restart nginx
+  
+  
+  handlers:
+    - name: Restart nginx
+      tags:
+        - setup_nginx
+      service: name=nginx state=restarted
+
+
+    

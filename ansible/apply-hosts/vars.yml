@@ -1,0 +1,4 @@
+---
+bucketname: "s3-k8s-rancher-dev"
+pathfile: "/home/ubuntu/rancher-elb"
+
