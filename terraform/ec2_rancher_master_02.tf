@@ -1,5 +1,19 @@
+data "aws_ami" "ubuntum02" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+
+  }
+
+  owners = ["099720109477"] #Ubuntu
+
+}
+
 resource "aws_instance" "rancher-master-02" {
-ami = "${var.ami}" // Ubuntu 18
+//ami = "${var.ami}" // Ubuntu 18
+ami           = data.aws_ami.ubuntum02.id
 instance_type = "${var.type_instance_rancher_master}"
 key_name = "${var.keyname}"  
 vpc_security_group_ids = ["${aws_security_group.sg-rancher.id}","${aws_security_group.sg-rancher-id.id}"]
