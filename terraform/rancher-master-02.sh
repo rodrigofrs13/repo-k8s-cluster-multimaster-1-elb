@@ -22,7 +22,7 @@ sudo echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sour
 sudo apt-get update
 sudo apt-get install -y kubelet kubeadm kubectl
 sudo kubeadm config images pull
-sudo git clone https://github.com/rodrigofrs13/repo-k8s-cluster-multimaster-1-elb.git /home/ubuntu/rancher-k8s
+#sudo git clone https://github.com/rodrigofrs13/repo-k8s-cluster-multimaster-1-elb.git /home/ubuntu/rancher-k8s
 #sudo echo "`curl http://169.254.169.254/latest/meta-data/local-ipv4`  rancher-master-01" >> /etc/hosts
 #sudo git clone http://algardeploy:aXb7ohyDRzxar_TwtrDA@gitlab.algartech.com/internos/cross/CCOE/template_automation/ansible/rancher.git /home/ubuntu/rancher-k8s
 #sudo ansible-playbook /home/ubuntu/rancher-k8s/ansible/set-ip-hosts.yml
