@@ -1,7 +1,7 @@
 #! /bin/bash
 sudo apt update
 sudo apt-add-repository ppa:ansible/ansible -y
-sudo hostnamectl set-hostname k8s-worker-01
+sudo hostnamectl set-hostname k8s-worker-03
 sudo echo "172.31.90.129 k8s-elb-01" >> /etc/hosts
 sudo apt install wget curl htop python git ansible awscli -y
 sudo echo "`curl http://169.254.169.254/latest/meta-data/local-ipv4`  k8s-worker-01" >> /etc/hosts
@@ -24,9 +24,8 @@ sudo apt install -y bash-completion
 kubectl completion bash > /etc/bash_completion.d/kubectl
 #sudo git clone https://github.com/rodrigofrs13/repo-k8s-cluster-multimaster-1-elb.git /home/ubuntu/rancher-k8s
 #sudo curl -fsSL https://get.docker.com | bash
-#sudo echo "`curl http://169.254.169.254/latest/meta-data/local-ipv4`  rancher-worker-01" >> /etc/hosts
+#sudo echo "`curl http://169.254.169.254/latest/meta-data/local-ipv4`  rancher-worker-02" >> /etc/hosts
 #sudo git clone http://algardeploy:aXb7ohyDRzxar_TwtrDA@gitlab.algartech.com/internos/cross/CCOE/template_automation/ansible/rancher.git /home/ubuntu/rancher-k8s
 #sudo ansible-playbook /home/ubuntu/rancher-k8s/ansible/set-ip-hosts.yml
 #sudo ansible-playbook /home/ubuntu/rancher-k8s/ansible/k8s_All_install_docker.yml
 #sudo ansible-playbook /home/ubuntu/rancher-k8s/ansible/k8s_Worker_install_Rancher.yml
-

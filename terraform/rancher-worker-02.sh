@@ -2,6 +2,7 @@
 sudo apt update
 sudo apt-add-repository ppa:ansible/ansible -y
 sudo hostnamectl set-hostname k8s-worker-02
+sudo echo "172.31.90.129 k8s-elb-01" >> /etc/hosts
 sudo apt install wget curl htop python git ansible awscli -y
 sudo echo "`curl http://169.254.169.254/latest/meta-data/local-ipv4`  k8s-worker-01" >> /etc/hosts
 sudo echo "br_netfilter" > /etc/modules-load.d/k8s.conf
